@@ -77,15 +77,14 @@ const Cart = () => {
           <h2 className="text-2xl">Shopping Cart</h2>
         </CardHeader>
         <CardBody>
-          <table>
+          <table className="hidden lg:table">
             <thead>
-              <tr>
+              <tr className="text-gray-800">
                 <th>Product</th>
                 <th>Title</th>
                 <th>Size</th>
                 <th>Quantity</th>
                 <th>Price</th>
-                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -106,11 +105,19 @@ const Cart = () => {
                     <p>{item.size}</p>
                   </td>
                   <td>
-                    <Button size="sm" onClick={() => decreaseQuantity(index)}>
+                    <Button
+                      size="sm"
+                      radius="full"
+                      onClick={() => decreaseQuantity(index)}
+                    >
                       -
                     </Button>
                     <span style={{ margin: "0 5px" }}>{item.quantity}</span>
-                    <Button size="sm" onClick={() => increaseQuantity(index)}>
+                    <Button
+                      size="sm"
+                      radius="full"
+                      onClick={() => increaseQuantity(index)}
+                    >
                       +
                     </Button>
                   </td>
@@ -122,19 +129,75 @@ const Cart = () => {
                         removeItem(index);
                       }}
                     >
-                      <XMarkIcon />
+                      <XMarkIcon width={20} color="grey" />
                     </Button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+          <div className="block sm:hidden">
+            {cartItems?.map((item, index) => (
+              <Card key={index} className="mb-2">
+                <CardBody>
+                  <div className="grid grid-cols-3 gap-5">
+                    <div>
+                      <Image
+                        width={100}
+                        height={100}
+                        src={item.imgUrl}
+                        alt={item.title}
+                      />
+                    </div>
+                    <div>
+                      <p className="font-bold">{item.title}</p>
+                      <p>
+                        Size: <strong>{item.size}</strong>
+                      </p>
+                      <div className="flex">
+                        <Button
+                          size="sm"
+                          onClick={() => decreaseQuantity(index)}
+                        >
+                          -
+                        </Button>
+                        <span style={{ margin: "0 5px" }}>{item.quantity}</span>
+                        <Button
+                          size="sm"
+                          onClick={() => increaseQuantity(index)}
+                        >
+                          +
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </CardBody>
+                <CardFooter className="flex justify-between">
+                  <p>{item.description.slice(0, 50)}</p>
+                  <div>
+                    <Button
+                      color="danger"
+                      size="sm"
+                      onClick={() => {
+                        removeItem(index);
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
         </CardBody>
         <CardFooter className="flex justify-end">
           <div className="flex space-x-10">
-            <h1 className="font-bold text-2xl">
-              Total: ${totalPrice.toFixed(2)}
-            </h1>
+            <div className="flex space-x-5">
+              <h2 className="text-xl text-gray-500">Total cost</h2>
+              <h1 className="text-2xl font-semibold">
+                ${totalPrice.toFixed(2)}
+              </h1>
+            </div>
             <Button variant="bordered" color="primary">
               Checkout
             </Button>
