@@ -1,3 +1,4 @@
+import { ShoppingBagIcon } from "@heroicons/react/16/solid";
 import {
   Navbar,
   NavbarBrand,
@@ -12,12 +13,12 @@ const NavBar = () => {
     {
       key: "products",
       label: "Products",
-      href: "#",
+      href: "/",
     },
     {
       key: "aboutUs",
       label: "AboutUs",
-      href: "#",
+      href: "/about",
     },
     {
       key: "contact",
@@ -28,7 +29,7 @@ const NavBar = () => {
 
   return (
     <>
-      <Navbar className="sticky">
+      <Navbar className="sticky text-primary bg-background">
         <NavbarBrand>
           <p className="font-bold text-inherit">V Store</p>
         </NavbarBrand>
@@ -36,11 +37,7 @@ const NavBar = () => {
           {menuItems?.map((menuItem) => {
             return (
               <NavbarItem key={menuItem?.key}>
-                <Link
-                  className="text-tiny"
-                  color="foreground"
-                  href={menuItem?.href}
-                >
+                <Link className="text-tiny" href={menuItem?.href}>
                   {menuItem?.label}
                 </Link>
               </NavbarItem>
@@ -52,8 +49,14 @@ const NavBar = () => {
             <Link href="#">Login</Link>
           </NavbarItem>
           <NavbarItem>
-            <Button as={Link} color="primary" href="#" variant="flat">
+            <Button as={Link} href="#" variant="flat">
               Sign Up
+            </Button>
+          </NavbarItem>
+          <NavbarItem>
+            <Button as={Link} href="/cart" variant="flat">
+              <ShoppingBagIcon />
+              Cart
             </Button>
           </NavbarItem>
         </NavbarContent>

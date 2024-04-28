@@ -14,7 +14,7 @@ import App from "./pages/home";
 export default function Home() {
   return (
     <NextUIProvider>
-      <main className="dark text-foreground bg-background">
+      <main className="bg-background">
         <App />
       </main>
     </NextUIProvider>

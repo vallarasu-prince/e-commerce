@@ -7,15 +7,16 @@ import {
   CheckboxGroup,
   Checkbox,
   NextUIProvider,
+  Chip,
 } from "@nextui-org/react";
 import Image from "next/image";
 import { products } from "../data/products";
 
 const Products = () => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
       {products?.map((product, index) => (
-        <Card key={index} className="bg-black m-5">
+        <Card key={index} className="px-5 py-5 border-none">
           <CardBody>
             <Image
               className="w-full h-full"
@@ -29,21 +30,23 @@ const Products = () => {
             <b className="font-bold text-large">{product.title}</b>
             <p className="text-medium font-bold">{product.price}</p>
           </CardFooter>
-          {/* <CheckboxGroup label="Sizes" orientation="horizontal" color="primary">
+
+          <p className="text-medium mb-5">{product?.description}</p>
+          <div className="flex justify-around mb-10">
+            <p>Sizes</p>
             {product?.sizes?.map((size) => {
               return (
-                <Checkbox key={size} value={size}>
+                <Chip radius="sm" variant="shadow" key={size}>
                   {size}
-                </Checkbox>
+                </Chip>
               );
             })}
-          </CheckboxGroup> */}
-          <p className="text-white/100 text-medium mb-10">
-            {product?.description}
-          </p>
-          <Button color="primary" variant="bordered">
-            Buy Now
-          </Button>
+          </div>
+          <a href={`/product/${product?._id}`} target="_blank">
+            <Button type="button" color="primary" variant="bordered">
+              Buy Now
+            </Button>
+          </a>
         </Card>
       ))}
     </div>

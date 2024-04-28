@@ -9,9 +9,6 @@ const config: Config = {
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    textColor: {
-      primary: "white",
-    },
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -21,6 +18,28 @@ const config: Config = {
     },
   },
   darkMode: "class",
-  plugins: [nextui()],
+  plugins: [
+    nextui({
+      prefix: "nextui",
+      addCommonColors: false,
+      defaultTheme: "light",
+      defaultExtendTheme: "light",
+      layout: {},
+      themes: {
+        light: {
+          layout: {},
+          colors: {
+            primary: "black",
+          },
+        },
+        dark: {
+          layout: {},
+          colors: {
+            primary: "white",
+          },
+        },
+      },
+    }),
+  ],
 };
 export default config;
