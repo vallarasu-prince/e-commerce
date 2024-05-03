@@ -9,57 +9,49 @@ import {
   CardHeader,
   Checkbox,
   CheckboxGroup,
-  Chip,
   Image,
-  Modal,
-  ModalBody,
-  ModalContent,
 } from "@nextui-org/react";
 import PageLoader from "@/app/pages/components/pageLoader";
+import { addCart } from "@/app/cart/services";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const Product = ({ params }) => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const productId = params?.id;
   const [product, setProduct] = useState(null);
-  const [cartItems, setCartItems] = useState([]);
-  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
-    fetchData(productId);
-  }, [productId]);
+    fetchData(params?.id);
+  }, [params?.id]);
 
   const fetchData = async (id) => {
     setLoading(true);
-    setError(null);
 
-    const { payload } = await getProduct(id);
-    setProduct(payload);
-    setLoading(false);
+    try {
+      const { payload } = await getProduct(id);
+      setProduct(payload);
+    } catch (error) {
+      console.log("🚀 ~ fetchData ~ error:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     const newItem = { ...product, quantity: 1 };
-    setCartItems([...cartItems, newItem]);
-    setDrawerOpen(true);
-  };
 
-  const increaseQuantity = (index) => {
-    const updatedItems = [...cartItems];
-    updatedItems[index].quantity++;
-    setCartItems(updatedItems);
-  };
-
-  const proceedToPayment = () => {
-    // Implement your logic for proceeding to payment
-    console.log("Proceeding to payment with items:", cartItems);
+    try {
+      const { status, cls, msg, payload } = await addCart(newItem);
+      if (msg) {
+        toast.success(msg);
+      }
+    } catch (error) {
+      toast.error("Failed to add product to cart. Please try again later.");
+    }
   };
 
   if (loading) return <PageLoader />;
 
-  const onClose = async () => {
-    setDrawerOpen(false);
-  };
   return (
     product && (
       <>
@@ -69,9 +61,14 @@ export const Product = ({ params }) => {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <Image src={product?.imgUrl} alt={product?.title} />
                 <div>
-                  <CardHeader className="text-xl font-bold" >{product?.title}</CardHeader>
+                  <CardHeader className="text-xl font-bold">
+                    {product?.title}
+                  </CardHeader>
                   <CardBody>
                     <p className="mb-5">{product?.description}</p>
+                    <h1 className="mb-5 font-bold text-2xl">
+                      {product?.price}
+                    </h1>
                     <div>
                       <CheckboxGroup
                         label="Sizes"
@@ -101,41 +98,7 @@ export const Product = ({ params }) => {
             </CardBody>
           </Card>
         </div>
-        <Modal
-          onClose={onClose}
-          isOpen={drawerOpen}
-          placement="top"
-          className="max-w-fit"
-        >
-          <ModalContent>
-            <ModalBody>
-              <Card title="Cart">
-                {cartItems.map((item, index) => (
-                  <Card key={index}>
-                    <CardBody>
-                      <Image src={item.imgUrl} alt={item.title} />
-                      <CardHeader>{item.title}</CardHeader>
-                      <CardBody>
-                        <p>{item.description}</p>
-                        <Button
-                          onClick={() => increaseQuantity(index)}
-                          color="primary"
-                          variant="outlined"
-                        >
-                          Increase Quantity
-                        </Button>
-                        <p>Quantity: {item.quantity}</p>
-                      </CardBody>
-                    </CardBody>
-                  </Card>
-                ))}
-                <Button onClick={proceedToPayment} color="success">
-                  Proceed to Payment
-                </Button>
-              </Card>
-            </ModalBody>
-          </ModalContent>
-        </Modal>
+        <ToastContainer />
       </>
     )
   );

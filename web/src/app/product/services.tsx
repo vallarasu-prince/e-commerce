@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function getProduct(id) {
-  const res = await fetch(`/api?id=${id}`, {
+  const res = await fetch(`/api/products/${id}`, {
     headers: {
       "Content-Type": "application/json",
     },

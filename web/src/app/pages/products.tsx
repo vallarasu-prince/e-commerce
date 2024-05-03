@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Button,
   Card,
@@ -11,8 +13,29 @@ import {
 } from "@nextui-org/react";
 import Image from "next/image";
 import { products } from "../data/products";
+import { useEffect, useState } from "react";
+import { getProducts } from "./services";
+import PageLoader from "./components/pageLoader";
 
 const Products = () => {
+  const [loading, setLoading] = useState(false);
+  const [products, setProducts] = useState(null);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    setLoading(true);
+    const { status, class: className, payload } = await getProducts();
+    if (payload) {
+      setProducts(payload);
+      setLoading(false);
+    }
+  };
+
+  if (loading) return <PageLoader />;
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
       {products?.map((product, index) => (
