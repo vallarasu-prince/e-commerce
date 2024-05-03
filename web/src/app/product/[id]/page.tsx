@@ -16,7 +16,7 @@ import { addCart } from "@/app/cart/services";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export const Product = ({ params }) => {
+const Product = ({ params }) => {
   const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState(null);
 
