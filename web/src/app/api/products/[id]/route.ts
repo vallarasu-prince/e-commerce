@@ -1,9 +1,6 @@
-import { cookies } from "next/headers";
-import { request } from "http";
-import { NextApiRequest, NextApiResponse } from "next";
 import mongoose from "mongoose";
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req, res) {
   const { params } = res;
   const { id: productId } = params;
 
