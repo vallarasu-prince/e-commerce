@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export async function GET(req, res) {
+export async function GET(req:any, res:any) {
   const { params } = res;
   const { id: productId } = params;
 

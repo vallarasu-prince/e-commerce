@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 // Connect to the database
 connectDB();
 
-export async function GET(req, res) {
+export async function GET(req:any, res:any) {
   try {
     // Wait for the database connection to be established
     await mongoose.connection;

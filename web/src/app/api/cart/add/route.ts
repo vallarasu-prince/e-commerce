@@ -6,7 +6,7 @@ import * as uuid from "uuid";
 
 connectDB();
 // POST handler
-export async function POST(req, res) {
+export async function POST(req:any, res:any) {
   const data = await req.json();
   try {
     // Connect to MongoDB
