@@ -67,9 +67,9 @@ export const Product = ({ params }) => {
                   <CardBody>
                     <p className="mb-5">{product?.description}</p>
                     <h1 className="mb-5 font-bold text-2xl">
-                      {product?.price}
+                      {product?.currency} {product?.price}
                     </h1>
-                    <div>
+                    {/* <div>
                       <CheckboxGroup
                         label="Sizes"
                         orientation="horizontal"
@@ -81,7 +81,7 @@ export const Product = ({ params }) => {
                           </Checkbox>
                         ))}
                       </CheckboxGroup>
-                    </div>
+                    </div> */}
                   </CardBody>
                   <CardFooter>
                     <Button

@@ -42,6 +42,11 @@ const Cart = () => {
     0
   );
 
+  // Get currency symbol from the first item (assuming all items have the same currency)
+  var currencySymbol = cartItems.length > 0 ? cartItems[0].currency : "";
+
+  // Format total price with currency symbol and two decimal places
+  var formattedTotalPrice = currencySymbol + totalPrice.toFixed(2);
   // Function to increase quantity of an item
   const increaseQuantity = (index) => {
     const updatedCartItems = [...cartItems];
@@ -76,7 +81,7 @@ const Cart = () => {
                 <tr className="text-gray-800">
                   <th>Product</th>
                   <th>Title</th>
-                  <th>Size</th>
+                  {/* <th>Size</th> */}
                   <th>Quantity</th>
                   <th>Price</th>
                 </tr>
@@ -96,9 +101,9 @@ const Cart = () => {
                       <td>
                         <p>{item?.title}</p>
                       </td>
-                      <td>
+                      {/* <td>
                         <p>{item?.size}</p>
-                      </td>
+                      </td> */}
                       <td>
                         <Button
                           size="sm"
@@ -118,7 +123,11 @@ const Cart = () => {
                           +
                         </Button>
                       </td>
-                      <td>${item?.price.toFixed(2)}</td>
+                      <td>
+                        {" "}
+                        {item?.currency}
+                        {item?.price.toFixed(2)}
+                      </td>
                       <td>
                         <Button
                           size="sm"
@@ -149,9 +158,9 @@ const Cart = () => {
                       </div>
                       <div>
                         <p className="font-bold">{item.title}</p>
-                        <p>
+                        {/* <p>
                           Size: <strong>{item.size}</strong>
-                        </p>
+                        </p> */}
                         <div className="flex">
                           <Button
                             size="sm"
@@ -194,9 +203,7 @@ const Cart = () => {
             <div className="flex space-x-10">
               <div className="flex space-x-5">
                 <h2 className="text-xl text-gray-500">Total cost</h2>
-                <h1 className="text-2xl font-semibold">
-                  ${totalPrice.toFixed(2)}
-                </h1>
+                <h1 className="text-2xl font-semibold">{formattedTotalPrice}</h1>
               </div>
               <Button variant="bordered" color="primary">
                 Checkout
